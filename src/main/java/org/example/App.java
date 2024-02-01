@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.models.Item;
 import org.example.models.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class App {
     public static void main(String[] args) {
-        Configuration configuration = new Configuration().addAnnotatedClass(Person.class);
+        Configuration configuration = new Configuration().addAnnotatedClass(Person.class).addAnnotatedClass(Item.class);
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
@@ -17,21 +18,34 @@ public class App {
         try {
             session.beginTransaction();
 
-            //List<Person> people = session.createQuery("from Person where age=19").getResultList();
+//            Person person = session.get(Person.class, 1);
+//            System.out.println(person);
+//
+//            List<Item> items = person.getItems();
+//            System.out.println(items);
+//
+//            Item item = session.get(Item.class, 5);
+//            Person owner = item.getOwner();
+//            System.out.println(owner);
+//
+//            Item newItem = new Item("Item Name", person);
+//            person.getItems().add(newItem);
+//            session.save(newItem);
 
-            //List<Person> people = session.createQuery("from Person where name like 'T%'").getResultList();
+            Person bob = session.get(Person.class, 5);
+            Person tom = session.get(Person.class, 4);
 
-            session.createQuery("update Person set age=10 where name='Tom'").executeUpdate();
-            List<Person> people = session.createQuery("from Person").getResultList();
+            Item item = session.get(Item.class, 6);
+            item.setOwner(bob);
 
-            for (Person person : people) {
-                System.out.println(person);
-            }
+            //Тут выдаст старые значения items у боба и тома, тк они были закешированы хибернетом...
+            System.out.println(bob.getItems());
+            System.out.println(tom.getItems());
+
 
             session.getTransaction().commit();
         } finally {
             sessionFactory.close();
         }
-
     }
 }

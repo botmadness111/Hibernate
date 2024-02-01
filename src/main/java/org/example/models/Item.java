@@ -2,31 +2,26 @@ package org.example.models;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
-@Table(name = "Person")
-public class Person {
+@Table(name = "item")
+public class Item {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "age")
-    private Integer age;
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person owner;
 
-    @OneToMany(mappedBy = "owner")
-    private List<Item> items;
-
-    public Person() {
+    public Item() {
     }
 
-    public Person(String name, Integer age) {
+    public Item(String name, Person owner) {
         this.name = name;
-        this.age = age;
+        this.owner = owner;
     }
 
     public Integer getId() {
@@ -45,28 +40,20 @@ public class Person {
         this.name = name;
     }
 
-    public Integer getAge() {
-        return age;
+    public Person getOwner() {
+        return owner;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setOwner(Person owner) {
+        this.owner = owner;
     }
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "Item{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", age=" + age +
+                ", owner=" + owner +
                 '}';
     }
 }
