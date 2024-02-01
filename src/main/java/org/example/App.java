@@ -5,8 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.sql.Connection;
-
 public class App {
     public static void main(String[] args) {
         Configuration configuration = new Configuration().addAnnotatedClass(Person.class);
@@ -17,9 +15,13 @@ public class App {
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 1);
-            System.out.println(person.getName());
-            System.out.println(person.getAge());
+            Person person1 = new Person("Andrey", 19);
+            Person person2 = new Person("Egor", 28);
+            Person person3 = new Person("Leva", 16);
+
+            session.save(person1);
+            session.save(person2);
+            session.save(person3);
 
             session.getTransaction().commit();
         } finally {
