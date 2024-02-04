@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class App {
@@ -18,30 +19,16 @@ public class App {
         try {
             session.beginTransaction();
 
-//            Person person = session.get(Person.class, 1);
-//            System.out.println(person);
-//
-//            List<Item> items = person.getItems();
-//            System.out.println(items);
-//
-//            Item item = session.get(Item.class, 5);
-//            Person owner = item.getOwner();
-//            System.out.println(owner);
-//
-//            Item newItem = new Item("Item Name", person);
-//            person.getItems().add(newItem);
-//            session.save(newItem);
+            Person person = new Person("Andrey", 19);
+            Item item1 = new Item("MacBook");
+            Item item2 = new Item("Book");
+            Item item3 = new Item("AirPods");
 
-            Person bob = session.get(Person.class, 5);
-            Person tom = session.get(Person.class, 4);
+            person.addItem(item1);
+            person.addItem(item2);
+            person.addItem(item3);
 
-            Item item = session.get(Item.class, 6);
-            item.setOwner(bob);
-
-            //Тут выдаст старые значения items у боба и тома, тк они были закешированы хибернетом...
-            System.out.println(bob.getItems());
-            System.out.println(tom.getItems());
-
+            session.save(person);
 
             session.getTransaction().commit();
         } finally {
