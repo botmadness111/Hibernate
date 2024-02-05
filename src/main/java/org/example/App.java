@@ -1,6 +1,8 @@
 package org.example;
 
+import org.example.models.Human;
 import org.example.models.Item;
+import org.example.models.Passport;
 import org.example.models.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,7 +13,7 @@ import java.util.List;
 
 public class App {
     public static void main(String[] args) {
-        Configuration configuration = new Configuration().addAnnotatedClass(Person.class).addAnnotatedClass(Item.class);
+        Configuration configuration = new Configuration().addAnnotatedClass(Person.class).addAnnotatedClass(Item.class).addAnnotatedClass(Passport.class).addAnnotatedClass(Human.class);
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
@@ -19,16 +21,12 @@ public class App {
         try {
             session.beginTransaction();
 
-            Person person = new Person("Andrey", 19);
-            Item item1 = new Item("MacBook");
-            Item item2 = new Item("Book");
-            Item item3 = new Item("AirPods");
+            Human human = new Human("Andrey2", 19);
+            Passport passport = new Passport(12358);
 
-            person.addItem(item1);
-            person.addItem(item2);
-            person.addItem(item3);
+            human.setPassport(passport);
 
-            session.save(person);
+            session.save(human);
 
             session.getTransaction().commit();
         } finally {
