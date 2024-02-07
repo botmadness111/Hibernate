@@ -49,6 +49,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "name='" + name + '\'';
+        return "name='" + name;
     }
 }

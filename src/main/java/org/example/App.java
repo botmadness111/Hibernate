@@ -10,7 +10,7 @@ import java.util.List;
 
 public class App {
     public static void main(String[] args) {
-        Configuration configuration = new Configuration().addAnnotatedClass(Movie.class).addAnnotatedClass(Actor.class);
+        Configuration configuration = new Configuration().addAnnotatedClass(Person.class).addAnnotatedClass(Item.class);
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
@@ -19,17 +19,15 @@ public class App {
         try (sessionFactory) {
             session.beginTransaction();
 
-            Movie movie = session.get(Movie.class, 2);
-            Actor actor = session.get(Actor.class, 1);
+            Person person = session.get(Person.class, 1);
 
-//            System.out.println(movie.getActors());
-//            System.out.println(actor.getMovies());
+            session.getTransaction().commit();
 
-//            actor.getMovies().add(movie);
-//            movie.getActors().add(actor);
+            session = sessionFactory.getCurrentSession();
+            session.beginTransaction();
 
-            movie.getActors().remove(actor);
-            actor.getMovies().remove(movie);
+            List<Item> items = session.createQuery("select owner from Item where owner.id=:person_id", Item.class).setParameter("person_id", person.getId()).getResultList();
+            System.out.println(items);
 
             session.getTransaction().commit();
         }

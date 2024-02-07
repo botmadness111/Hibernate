@@ -21,7 +21,7 @@ public class Person {
     private Integer age;
 
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private List<Item> items = new ArrayList<>();
 
@@ -71,15 +71,11 @@ public class Person {
         }
 
         items.add(item);
-        //item.setOwner(this);
+        item.setOwner(this);
     }
 
     @Override
     public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+        return "name='" + name;
     }
 }
