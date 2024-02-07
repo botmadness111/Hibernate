@@ -1,14 +1,12 @@
 package org.example.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Person")
-public class Person {
+@Table(name = "Actor")
+public class Actor {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,15 +18,16 @@ public class Person {
     @Column(name = "age")
     private Integer age;
 
+    @ManyToMany
+    @JoinTable(name = "Actor_Movie",
+            joinColumns = @JoinColumn(name = "actor_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id"))
+    private List<Movie> movies;
 
-    @OneToMany(mappedBy = "owner")
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    private List<Item> items = new ArrayList<>();
-
-    public Person() {
+    public Actor() {
     }
 
-    public Person(String name, Integer age) {
+    public Actor(String name, Integer age) {
         this.name = name;
         this.age = age;
     }
@@ -57,29 +56,18 @@ public class Person {
         this.age = age;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<Movie> getMovies() {
+        return movies;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
-    public void addItem(Item item) {
-        if (items == null) {
-            items = new ArrayList<>();
-        }
-
-        items.add(item);
-        //item.setOwner(this);
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 
     @Override
     public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
+        return "Actor{" +
+                "name='" + name + '\'' +
                 '}';
     }
 }

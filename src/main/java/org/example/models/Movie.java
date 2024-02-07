@@ -2,12 +2,17 @@ package org.example.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Movie")
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer movie_id;
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -18,6 +23,8 @@ public class Movie {
     @ManyToOne
     @JoinColumn(name = "director_id", referencedColumnName = "director_id")
     private Director director;
+    @ManyToMany(mappedBy = "movies")
+    private List<Actor> actors;
 
     public Movie() {
     }
@@ -33,6 +40,12 @@ public class Movie {
 
     public void setMovie_id(Integer movie_id) {
         this.movie_id = movie_id;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -57,6 +70,12 @@ public class Movie {
 
     public void setDirector(Director director) {
         this.director = director;
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
     }
 
     @Override

@@ -3,14 +3,11 @@ package org.example.models;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "Person")
-public class Person {
+@Table(name = "human")
+public class Human {
     @Id
-    @Column(name = "id")
+    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -20,15 +17,14 @@ public class Person {
     @Column(name = "age")
     private Integer age;
 
-
-    @OneToMany(mappedBy = "owner")
+    @OneToOne(mappedBy = "human")
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    private List<Item> items = new ArrayList<>();
+    private Passport passport;
 
-    public Person() {
+    public Human() {
     }
 
-    public Person(String name, Integer age) {
+    public Human(String name, Integer age) {
         this.name = name;
         this.age = age;
     }
@@ -57,29 +53,20 @@ public class Person {
         this.age = age;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public Passport getPassport() {
+        return passport;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
-    public void addItem(Item item) {
-        if (items == null) {
-            items = new ArrayList<>();
-        }
-
-        items.add(item);
-        //item.setOwner(this);
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+        passport.setHuman(this);
     }
 
     @Override
     public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
+        return "Human{" +
+                "name='" + name + '\'' +
+                ", passport=" + passport +
                 '}';
     }
 }

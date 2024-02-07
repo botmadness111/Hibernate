@@ -19,9 +19,8 @@ public class Item {
     public Item() {
     }
 
-    public Item(String name, Person owner) {
+    public Item(String name) {
         this.name = name;
-        this.owner = owner;
     }
 
     public Integer getId() {
@@ -50,10 +49,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", owner=" + owner +
-                '}';
+        return "name='" + name + '\'';
     }
 }
