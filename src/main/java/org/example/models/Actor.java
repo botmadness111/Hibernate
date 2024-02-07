@@ -12,6 +12,7 @@ public class Actor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    sd
     @Column(name = "name")
     private String name;
 
