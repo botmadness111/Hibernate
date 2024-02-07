@@ -8,6 +8,8 @@ import java.util.List;
 @Table(name = "Movie")
 public class Movie {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer movie_id;
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -18,6 +20,9 @@ public class Movie {
     @Column(name = "year_of_production")
     private Integer year_of_production;
 
+    @ManyToOne
+    @JoinColumn(name = "director_id", referencedColumnName = "director_id")
+    private Director director;
     @ManyToMany(mappedBy = "movies")
     private List<Actor> actors;
 
@@ -29,6 +34,12 @@ public class Movie {
         this.year_of_production = year_of_production;
     }
 
+    public Integer getMovie_id() {
+        return movie_id;
+    }
+
+    public void setMovie_id(Integer movie_id) {
+        this.movie_id = movie_id;
     public Integer getId() {
         return id;
     }
@@ -53,6 +64,12 @@ public class Movie {
         this.year_of_production = year_of_production;
     }
 
+    public Director getDirector() {
+        return director;
+    }
+
+    public void setDirector(Director director) {
+        this.director = director;
     public List<Actor> getActors() {
         return actors;
     }
@@ -65,6 +82,7 @@ public class Movie {
     public String toString() {
         return "Movie{" +
                 "name='" + name + '\'' +
+                ", year_of_production=" + year_of_production +
                 '}';
     }
 }
